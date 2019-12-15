@@ -45,9 +45,7 @@ app.post('/courses',(req,res)=>{
     */
     const {error} = validateSchema(req.body);
 
-    if(error) {
-        res.status(400).send(error.details[0].message);
-    }
+    if(error) return  res.status(400).send(error.details[0].message);
     /* In this route handler, we need to read the course object that should be in the 
         the body of the request. Use its property to create a new course object and 
         add that course object to our courses array.*/
@@ -62,6 +60,20 @@ app.post('/courses',(req,res)=>{
 
 });
 
+app.put('/courses/:id', (req,res)=>{
+    /* Look up the course. If not existing, return 404.
+    Otherwise Validate. If invalid, return 400- Bad Request
+    Else update course and return the updated course to client */
+
+    const course=courses.find(c=>c.id===parseInt(req.params.id));
+    if(!course) return res.status(404).send('The course with the given Id does not exist');
+
+    const {error} =validateSchema(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
+    course.name=req.body.name;
+    res.send(course);
+});
 /*When ee have hardcode the value of port, thouugh it may work in development environment, but we cannot be sure that it works in 
 production environment, because the port is dynamically assigned in hosting environment.So, we can't rely on the port to be avaibale. 
 So, the way to fix this is by using environment variable.
@@ -72,8 +84,7 @@ Env Varaible is a variable that is part of the environment in which a process ru
 We have the global object called process, which has a property called env, then we give the name of our environment variable, 
 which is PORT for us now.
 
-If it is set, we will use it otherwise, we will use 3000.
-*/
+If it is set, we will use it otherwise, we will use 3000.*/
 
 const port = process.env.PORT || 3000;
 
