@@ -1,6 +1,10 @@
 // Load Express Module : Returns a function
 const express = require ('express');
 
+//Loading Joi Module for input validation : returns a class
+const Joi = require('joi');
+
+
 // When calling the function, it returns object of type express
 const app=express();
 
@@ -34,6 +38,16 @@ app.get('/courses/:id', (req,res)=>{
 });
 
 app.post('/courses',(req,res)=>{
+
+    /*Object Destructuring : Since, we are interested in error property, we can get it using object destrucuring.
+    With it, when declaring a variable or constant, we add {} and then we add property of target object that we want.
+    Here, {error} is equivalent to result.error.
+    */
+    const {error} = validateSchema(req.body);
+
+    if(error) {
+        res.status(400).send(error.details[0].message);
+    }
     /* In this route handler, we need to read the course object that should be in the 
         the body of the request. Use its property to create a new course object and 
         add that course object to our courses array.*/
@@ -71,3 +85,16 @@ app.listen(port,()=>{
 Command to set environment variable is : 
 export (Mac) /set (Windows) PORT=5000 (To use port with a value of 5000) */
 
+/* With Joi, we need to first define a schema.A schema defines the shape of our object, what properties do we have in that object,
+what is the type of each property, do we have an email, or a string, what is the minimum and maximum number of characters. What is 
+the range of the number we have ? This is the job of the schema. */
+
+function validateSchema(course){
+    const schema={
+        name : Joi.string().min(3).required()
+    };
+ 
+    //validating the request body
+    return Joi.validate(course,schema);
+    
+}
