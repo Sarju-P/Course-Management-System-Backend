@@ -22,7 +22,12 @@ app.get('/', (req,res)=> {
 
 app.get('/courses',(req,res)=>{
     res.send(courses);
-})
+});
+
+app.get('/courses/:id', (req,res)=>{
+    const course=courses.find(c=>c.id===parseInt(req.params.id));
+    res.send(course);
+});
 
 /*When ee have hardcode the value of port, thouugh it may work in development environment, but we cannot be sure that it works in 
 production environment, because the port is dynamically assigned in hosting environment.So, we can't rely on the port to be avaibale. 
