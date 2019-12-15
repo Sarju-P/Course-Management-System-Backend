@@ -17,7 +17,7 @@ const courses= [
 ]
 // app object has bunch of useful methods like get/post/put and delete
 app.get('/', (req,res)=> {
-    res.send(`WELCOME TO THE HOMEPAGE OF COURSE MANAGEMENT SYSTEM.`);
+    res.send(`WELCOME TO THE HOMEPAGE OF COURSE MANAGEMENT SYSTEM...`);
 });
 
 app.get('/courses',(req,res)=>{
