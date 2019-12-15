@@ -1,0 +1,1 @@
+This is the backend of a course management application.
