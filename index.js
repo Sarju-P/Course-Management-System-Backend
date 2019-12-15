@@ -11,6 +11,7 @@ const app=express();
 /*express.json() returns a piece of middleware, then we call app.use
  to use that middleware in the request processing pipeline. */
 app.use(express.json());
+
 const courses= [
     {
         id:1, name: 'course 1'
@@ -74,6 +75,19 @@ app.put('/courses/:id', (req,res)=>{
     course.name=req.body.name;
     res.send(course);
 });
+
+app.delete('/courses/:id',(req,res)=>{
+    // Look up the course with given id. If course not found, return 404-Not found.
+    // Otherwise delete the course and return the course that was deleted.
+    const course= courses.find(c=>c.id===parseInt(req.params.id));
+    if(!course) res.status(404).send('The course with the Id does not exist');
+
+   const index = courses.indexOf(course);
+    courses.splice(index,1);
+
+    res.send(course);
+});
+
 /*When ee have hardcode the value of port, thouugh it may work in development environment, but we cannot be sure that it works in 
 production environment, because the port is dynamically assigned in hosting environment.So, we can't rely on the port to be avaibale. 
 So, the way to fix this is by using environment variable.
