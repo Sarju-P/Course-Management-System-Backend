@@ -17,9 +17,12 @@ const courses= [
 ]
 // app object has bunch of useful methods like get/post/put and delete
 app.get('/', (req,res)=> {
-    res.send(courses);
+    res.send(`WELCOME TO THE HOMEPAGE OF COURSE MANAGEMENT SYSTEM.`);
 });
 
+app.get('/courses',(req,res)=>{
+    res.send(courses);
+})
 app.listen(3000,()=>{
     console.log('Listening on port 3000');
 });
