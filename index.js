@@ -4,6 +4,9 @@ const express = require ('express');
 // When calling the function, it returns object of type express
 const app=express();
 
+/*express.json() returns a piece of middleware, then we call app.use
+ to use that middleware in the request processing pipeline. */
+app.use(express.json());
 const courses= [
     {
         id:1, name: 'course 1'
@@ -26,7 +29,23 @@ app.get('/courses',(req,res)=>{
 
 app.get('/courses/:id', (req,res)=>{
     const course=courses.find(c=>c.id===parseInt(req.params.id));
+    if(!course) res.status(404).send('The course with the given Id does not exist.');
     res.send(course);
+});
+
+app.post('/courses',(req,res)=>{
+    /* In this route handler, we need to read the course object that should be in the 
+        the body of the request. Use its property to create a new course object and 
+        add that course object to our courses array.*/
+      const course={
+          id:courses.length + 1,
+          name : req.body.name // In order for this line to work, we need to enable 
+          //parsing of JSON objects in the body of the request
+      };
+      courses.push(course);
+      //Returning back the new course object
+      res.send(course);
+
 });
 
 /*When ee have hardcode the value of port, thouugh it may work in development environment, but we cannot be sure that it works in 
