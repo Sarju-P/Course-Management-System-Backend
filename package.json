@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Sarju-P/Course-Management-System-Backend/issues"
   },
-  "homepage": "https://github.com/Sarju-P/Course-Management-System-Backend#readme"
+  "homepage": "https://github.com/Sarju-P/Course-Management-System-Backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
